@@ -38,12 +38,13 @@ const Product = () => {
         <div className="product-grid">
           {getProducts().map((item) => (
             <div className="product-card" key={item.id}>
-              <img
-                className="product-image"
-                src={item.image}
-                alt={item.name}
-              />
-              <h2 className="product-name"><Link to={`/product/&{item.id}`}> {item.name} </Link></h2>
+              <img className="product-image" 
+                  src={item.image} 
+                  alt={item.name} />
+              {/* ✅ Sửa lỗi template literal */}
+              <h2 className="product-name">
+                <Link to={`/product/${item.id}`}> {item.name} </Link>
+              </h2>
               <div className="product-prices">
                 <h2 className="product-price">{item.price} VND</h2>
                 {!item.inStock && (

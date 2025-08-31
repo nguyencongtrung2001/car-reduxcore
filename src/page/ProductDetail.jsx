@@ -2,40 +2,57 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaStar } from "react-icons/fa";
 import "../css/productDetail.css";
-import { clotheall } from "../data/clothes";
+import { clotheall,clothemen,clothewomen } from "../data/clothes";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const ProductDetail = () => {
   const { id } = useParams(); // lấy id từ URL
   const product = clotheall.find((p) => p.id === id);
-  const checkCategory = (x) => {
-    return x.includes("men") ? "men" : "women";
+
+  const checkCategory = (productId) => {
+    return productId.includes("men") ? "Men's" : "Women's";
   };
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   const toggleFavorite = () => {
-    setIsFavorite(true);
+    setIsFavorite(!isFavorite);
   };
-  const formatPrice = (price) =>{
-   return new Intl.NumberFormat('vi-VN',{
-    style:'currency',
-    currency:'VND'
-   }).format(price)
-  }
-  const [selectSize,setSelectSize] =useState('S')
-  const [quantity,setQuantity] = useState(1)
 
-    const handleQuantityChange = (change) => {
-    const newQuantity = quantity + change
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
+  };
+  const [selectSize, setSelectSize] = useState("S");
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantityChange = (change) => {
+    const newQuantity = quantity + change;
     if (newQuantity >= 1 && newQuantity <= 10) {
-      setQuantity(newQuantity)
+      setQuantity(newQuantity);
     }
+  };
+ const result = checkCategory(product.id) ? clothemen : clothewomen
+  if (!product) {
+    return (
+      <div className="product-detail-container">
+        <Header />
+        <div style={{ textAlign: "center", padding: "50px", color: "white" }}>
+          <h2>Product not found</h2>
+          <Link to="/home" style={{ color: "#ff4500" }}>
+            Back to Home
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
   }
-
   return (
     <div className="product-detail-container">
-      <Header/>
+      <Header />
       {/* HEADER */}
       <div className="detail-header">
         <nav className="breadcrumb">
@@ -84,13 +101,16 @@ const ProductDetail = () => {
 
           <h1 className="product-title">{product.name}</h1>
           <p className="product-description">
-            Premium quality {checkCategory(product.id) ? 'men\'s' : 'women\'s'}fashion item. Made with high-quality materials
-            for comfort and style. Perfect for both casual and formal occasions.
+            Premium quality {checkCategory(product.id) ? "men's" : "women's"}
+            fashion item. Made with high-quality materials for comfort and
+            style. Perfect for both casual and formal occasions.
           </p>
 
           <div className="price-section">
             <span className="current-price">{formatPrice(product.price)}</span>
-            <span className="original-price">{formatPrice(product.price*1.2)}</span>
+            <span className="original-price">
+              {formatPrice(product.price * 1.2)}
+            </span>
             <span className="discount-badge">-17%</span>
           </div>
 
@@ -98,27 +118,33 @@ const ProductDetail = () => {
             <div className="size-selection">
               <h3>Size</h3>
               <div className="size-options">
-                {
-                  product.sizes.map(size => (
-                    <button key={size} className={`size-btn ${selectSize === size ? 'active' : ''}`} onClick={() => setSelectSize(size)}>{size}</button>
-                  ))
-                }
+                {product.sizes.map((size) => (
+                  <button
+                    key={size}
+                    className={`size-btn ${
+                      selectSize === size ? "active" : ""
+                    }`}
+                    onClick={() => setSelectSize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
               </div>
             </div>
 
             <div className="quantity-selection">
               <h3>Quantity</h3>
-                <div className='quantity-controls'>
-                <button 
-                  className='quantity-btn'
+              <div className="quantity-controls">
+                <button
+                  className="quantity-btn"
                   onClick={() => handleQuantityChange(-1)}
                   disabled={quantity <= 1}
                 >
                   -
                 </button>
-                <span className='quantity-display'>{quantity}</span>
-                <button 
-                  className='quantity-btn'
+                <span className="quantity-display">{quantity}</span>
+                <button
+                  className="quantity-btn"
                   onClick={() => handleQuantityChange(1)}
                   disabled={quantity >= 10}
                 >
@@ -134,9 +160,40 @@ const ProductDetail = () => {
             </button>
             <button className="buy-now-btn">Buy Now</button>
           </div>
+
+          <div className="product-features">
+            <div className="feature">
+              <h4>Free Shipping</h4>
+              <p>Free shipping on orders over 500,000 VND</p>
+            </div>
+            <div className="feature">
+              <h4>Easy Returns</h4>
+              <p>30-day return policy</p>
+            </div>
+            <div className="feature">
+              <h4>Quality Guarantee</h4>
+              <p>100% authentic products</p>
+            </div>
+          </div>
         </div>
       </div>
-      <Footer/>
+       <div className='related-products'>
+          <h2>You might also like</h2>
+          <div className='related-grid'>
+            {result.map(product => (
+              <div 
+                key={product.id}
+                className='related-item'
+                onClick={() => }
+              >
+                <img src={product.image} alt={product.name} />
+                <h3>{product.name}</h3>
+                <p>{formatPrice(product.price)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      <Footer />
     </div>
   );
 };

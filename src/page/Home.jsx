@@ -8,7 +8,6 @@ import Deal from "../components/Deal";
 import "../css/policy.css";
 import { FaTruck, FaMoneyBill, FaClock } from "react-icons/fa";
 import { TfiBackLeft } from "react-icons/tfi";
-import ProductDetail from "./ProductDetail";
 
 const Home = () => {
   return (

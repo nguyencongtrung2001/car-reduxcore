@@ -3,12 +3,20 @@ import "../css/header.css";
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
 
 const Header = () => {
-  let emailtext = localStorage.getItem("users");
-  console.log(emailtext);
+  // ✅ Thêm error handling cho localStorage
+  let userEmail = "Guest"; // Default value
+  
+  try {
+    const emailtext = localStorage.getItem("users");
+    if (emailtext) {
+      const userObj = JSON.parse(emailtext);
+      userEmail = userObj.emails || "Guest";
+    }
+  } catch (error) {
+    console.error("Error parsing user data from localStorage:", error);
+  }
 
-  let userObj = JSON.parse(emailtext);
-  console.log(userObj.emails);
-
+  console.log("User email:", userEmail);
 
   return (
     <header className="header">
@@ -38,7 +46,8 @@ const Header = () => {
             </li>
             <li className="header__icon header__icon--user">
               <FaUser />
-            
+              {/* ✅ Có thể hiển thị user info nếu cần */}
+              {/* <span className="user-info">{userEmail}</span> */}
             </li>
             <li className="header__icon header__icon--cart">
               <FaShoppingCart />

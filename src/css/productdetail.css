@@ -1,14 +1,10 @@
 /* CONTAINER */
 .product-detail-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
   font-family: "Roboto", sans-serif;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background-color: #000000; /* Đen làm nền chính */
   color: #ffffff; /* Văn bản trắng */
 }
 
@@ -45,6 +41,7 @@
   display: flex;
   flex-direction: row;
   gap: 40px;
+  margin: 0px 500px;
 }
 
 /* IMAGE SECTION */
@@ -70,45 +67,29 @@
 
 .favorite-btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #ffffff; /* Nền trắng */
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
   border: none;
-  font-size: 20px;
-  padding: 8px;
   border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  color: #ff4500; /* Đỏ cam cho biểu tượng tim */
-  box-shadow: 0 2px 6px rgba(255, 69, 0, 0.3); /* Bóng đỏ cam */
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+  color: #ccc;
 }
 
 .favorite-btn:hover {
   transform: scale(1.1);
+  background-color: white;
 }
 
 .favorite-btn.active {
-  color: #ff0000; /* Đỏ đậm khi được chọn */
-}
-
-.thumbnail-list {
-  display: flex;
-  gap: 10px;
-}
-
-.thumbnail-list img {
-  width: 80px;
-  height: 80px;
-  border-radius: 6px;
-  border: 1px solid #333333; /* Viền đen nhạt */
-  cursor: pointer;
-  object-fit: cover;
-  transition: transform 0.2s, border 0.2s;
-}
-
-.thumbnail-list img:hover {
-  transform: scale(1.05);
-  border: 2px solid #ff4500; /* Viền đỏ cam khi hover */
+  color: #ff6b35;
 }
 
 /* INFO SECTION */
@@ -156,7 +137,7 @@
 .product-title {
   font-size: 28px;
   font-weight: bold;
-  color: #ffffff; /* Trắng */
+  color: black; /* Trắng */
 }
 
 .product-description {
@@ -235,7 +216,8 @@
   align-items: center;
   gap: 10px;
 }
-
+h3 {
+}
 .quantity-btn {
   width: 30px;
   height: 30px;
