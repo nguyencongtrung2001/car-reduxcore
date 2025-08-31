@@ -1,0 +1,116 @@
+.banner {
+  width: 100%;
+  height: 600px;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lớp phủ màu đen để chữ nổi bật hơn */
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.banner-section {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+  max-width: 700px;
+  padding: 20px;
+}
+
+.banner-section h2 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #e0e0e0; /* xám nhạt */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.banner-section h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff; /* trắng nổi bật */
+  letter-spacing: 2px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.btn-shopnow {
+  padding: 14px 28px;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-shopnow:hover {
+  background-color: #000000;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Hiệu ứng chữ xuất hiện */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .banner {
+    height: 500px;
+  }
+
+  .banner-section h1 {
+    font-size: 2rem;
+  }
+
+  .banner-section h2 {
+    font-size: 1.2rem;
+  }
+
+  .btn-shopnow {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    height: 400px;
+  }
+
+  .banner-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .banner-section h2 {
+    font-size: 1rem;
+  }
+}

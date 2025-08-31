@@ -1,0 +1,33 @@
+.footer {
+  width: 100%;
+  height: 300px;
+  background: black;
+  display: flex;
+  flex-direction: column; /* để các phần nằm dọc */
+  align-items: center;
+  justify-content: center;
+}
+.footer-links,
+.social-icons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px; /* khoảng cách giữa các mục */
+}
+
+.footer-links li,
+.social-icons li {
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+}
+
+.social-icons .icon {
+  font-size: 24px;
+  transition: 0.3s;
+}
+
+.copyright::after {
+  content: "Quintus Labs";
+  color: red;
+}

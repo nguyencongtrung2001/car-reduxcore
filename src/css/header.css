@@ -1,0 +1,84 @@
+/* Tổng thể Header */
+.header {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: #ffffff; /* nền trắng */
+  color: #000000; /* chữ đen */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.header__logo {
+  display: flex;
+  flex-direction: row;
+  letter-spacing: 0.2rem;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.logo-text {
+  color: #000000;
+}
+
+.logo-cube {
+  background: #e93f3f;
+  color: #ffffff;
+  margin-left: 5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Menu điều hướng */
+.header__menu {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Links */
+.header__nav .nav__links {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nav__item {
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav__item:hover {
+  color: #e92c2c; /* xám khi hover */
+  transform: translateY(-2px);
+}
+
+/* Icons */
+.header__icons {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  gap: 1.2rem;
+}
+
+.header__icon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.header__icon:hover {
+  color: #e40b0b; /* xám khi hover */
+  transform: scale(1.1);
+}

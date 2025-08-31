@@ -1,0 +1,58 @@
+.category {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding: 0 20px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Tự co giãn */
+  gap: 20px;
+  width: 80%; /* Rộng hơn để cân đối */
+}
+
+.grid-item {
+  height: 250px;
+  /* border-radius: 10px; */
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s ease;
+}
+
+.grid-item:hover {
+  transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+.grid-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3); /* Lớp phủ tối giúp chữ nổi bật */
+  transition: background 0.3s ease;
+}
+
+.grid-item:hover::after {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.category-btn {
+  position: absolute;
+  z-index: 2;
+  padding: 10px 20px;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  /* border-radius: 8px; */
+  border-bottom-right-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  background: white;
+  color: black;
+}
