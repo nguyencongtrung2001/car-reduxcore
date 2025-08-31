@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { FaHeart, FaShoppingCart, FaStar } from "react-icons/fa";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { FaHeart, FaShoppingCart, FaStar, FaTruck, FaUndo, FaCertificate } from "react-icons/fa";
 import "../css/productDetail.css";
-import { clotheall,clothemen,clothewomen } from "../data/clothes";
+import { clotheall, clothemen, clothewomen } from "../data/clothes";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const ProductDetail = () => {
-  const { id } = useParams(); // lấy id từ URL
+  const { id } = useParams();
+  const navigate = useNavigate();
   const product = clotheall.find((p) => p.id === id);
 
+  // ✅ Sửa logic kiểm tra category
   const checkCategory = (productId) => {
     return productId.includes("men") ? "Men's" : "Women's";
   };
@@ -26,6 +28,7 @@ const ProductDetail = () => {
       currency: "VND",
     }).format(price);
   };
+
   const [selectSize, setSelectSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
 
@@ -35,7 +38,24 @@ const ProductDetail = () => {
       setQuantity(newQuantity);
     }
   };
- const result = checkCategory(product.id) ? clothemen : clothewomen
+
+  // ✅ Sửa logic lấy related products
+  const getRelatedProducts = () => {
+    const isMenProduct = product.id.includes("men");
+    const relatedArray = isMenProduct ? clothemen : clothewomen;
+    // Lọc bỏ sản phẩm hiện tại và lấy 4 sản phẩm random
+    return relatedArray
+      .filter(item => item.id !== product.id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+  };
+
+  // ✅ Hàm navigate đến product khác
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+    window.scrollTo(0, 0); // Scroll to top
+  };
+
   if (!product) {
     return (
       <div className="product-detail-container">
@@ -50,10 +70,12 @@ const ProductDetail = () => {
       </div>
     );
   }
+
   return (
     <div className="product-detail-container">
       <Header />
-      {/* HEADER */}
+      
+      {/* BREADCRUMB */}
       <div className="detail-header">
         <nav className="breadcrumb">
           <Link to="/home">Home</Link>
@@ -64,7 +86,7 @@ const ProductDetail = () => {
         </nav>
       </div>
 
-      {/* CONTENT */}
+      {/* MAIN CONTENT */}
       <div className="detail-content">
         {/* IMAGE SECTION */}
         <div className="detail-image-section">
@@ -87,12 +109,12 @@ const ProductDetail = () => {
         <div className="detail-info-section">
           <div className="product-meta">
             <span className="product-category">
-              {checkCategory(product.id) ? "Men's Fashion" : "Women's Fashion"}
+              {checkCategory(product.id)} Fashion
             </span>
             <div className="product-rating">
               <div className="stars">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <FaStar key={star} className={star <= 4 ? "filled" : ""} />
+                  <FaStar key={star} className={star <= 4 ? "filled" : "empty"} />
                 ))}
               </div>
               <span className="rating-text">(4.0) 128 reviews</span>
@@ -101,9 +123,7 @@ const ProductDetail = () => {
 
           <h1 className="product-title">{product.name}</h1>
           <p className="product-description">
-            Premium quality {checkCategory(product.id) ? "men's" : "women's"}
-            fashion item. Made with high-quality materials for comfort and
-            style. Perfect for both casual and formal occasions.
+            {product.description || `Premium quality ${checkCategory(product.id).toLowerCase()} fashion item. Made with high-quality materials for comfort and style. Perfect for both casual and formal occasions.`}
           </p>
 
           <div className="price-section">
@@ -121,9 +141,7 @@ const ProductDetail = () => {
                 {product.sizes.map((size) => (
                   <button
                     key={size}
-                    className={`size-btn ${
-                      selectSize === size ? "active" : ""
-                    }`}
+                    className={`size-btn ${selectSize === size ? "active" : ""}`}
                     onClick={() => setSelectSize(size)}
                   >
                     {size}
@@ -161,38 +179,56 @@ const ProductDetail = () => {
             <button className="buy-now-btn">Buy Now</button>
           </div>
 
+          {/* PRODUCT FEATURES */}
           <div className="product-features">
             <div className="feature">
-              <h4>Free Shipping</h4>
-              <p>Free shipping on orders over 500,000 VND</p>
+              <FaTruck className="feature-icon" />
+              <div className="feature-content">
+                <h4>Free Shipping</h4>
+                <p>Free shipping on orders over 500,000 VND</p>
+              </div>
             </div>
             <div className="feature">
-              <h4>Easy Returns</h4>
-              <p>30-day return policy</p>
+              <FaUndo className="feature-icon" />
+              <div className="feature-content">
+                <h4>Easy Returns</h4>
+                <p>30-day return policy</p>
+              </div>
             </div>
             <div className="feature">
-              <h4>Quality Guarantee</h4>
-              <p>100% authentic products</p>
+              <FaCertificate className="feature-icon" />
+              <div className="feature-content">
+                <h4>Quality Guarantee</h4>
+                <p>100% authentic products</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-       <div className='related-products'>
-          <h2>You might also like</h2>
-          <div className='related-grid'>
-            {result.map(product => (
-              <div 
-                key={product.id}
-                className='related-item'
-                onClick={() => }
-              >
-                <img src={product.image} alt={product.name} />
-                <h3>{product.name}</h3>
-                <p>{formatPrice(product.price)}</p>
+
+      {/* RELATED PRODUCTS */}
+      <div className="related-products">
+        <h2 className="related-title">You might also like</h2>
+        <div className="related-grid">
+          {getRelatedProducts().map((relatedProduct) => (
+            <div
+              key={relatedProduct.id}
+              className="related-item"
+              onClick={() => handleProductClick(relatedProduct.id)}
+            >
+              <img src={relatedProduct.image} alt={relatedProduct.name} />
+              <div className="related-info">
+                <h3>{relatedProduct.name}</h3>
+                <p className="related-price">{formatPrice(relatedProduct.price)}</p>
+                {!relatedProduct.inStock && (
+                  <span className="out-of-stock">Out of Stock</span>
+                )}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
+      </div>
+
       <Footer />
     </div>
   );
