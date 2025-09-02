@@ -73,12 +73,12 @@
 }
 
 .header__icon {
-  font-size: 1.3rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .header__icon:hover {
-  color: #e40b0b; /* xám khi hover */
+  color:  #e93f3f; /* xám khi hover */
   transform: scale(1.1);
 }

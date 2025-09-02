@@ -40,7 +40,7 @@
   content: "";
   width: 60px;
   height: 3px;
-  background: red;
+  background: #e93f3f;
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -62,13 +62,13 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .timer h1 {
   font-size: 22px;
   margin: 0;
-  color:rgb(241, 67, 67);
+  color:  #e93f3f;
 }
 
 .timer h2 {
@@ -91,5 +91,5 @@
 }
 
 .deal-button:hover {
-  background-color: red;
+  background-color:  #e93f3f;
 }

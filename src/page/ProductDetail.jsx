@@ -5,6 +5,7 @@ import "../css/productDetail.css";
 import { clotheall, clothemen, clothewomen } from "../data/clothes";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { CartContext } from "../components/CartContext";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -71,6 +72,11 @@ const ProductDetail = () => {
     );
   }
 
+   const { addToCart } = useContext(CartContext);
+  const handleAddToCart = () => {
+    addToCart(product, selectSize, quantity);
+    alert("✅ Added to cart!");
+  };
   return (
     <div className="product-detail-container">
       <Header />
@@ -173,7 +179,7 @@ const ProductDetail = () => {
           </div>
 
           <div className="action-buttons">
-            <button className="add-to-cart-btn">
+            <button className="add-to-cart-btn" onClick={handleAddToCart}>
               <FaShoppingCart /> Add to Cart
             </button>
             <button className="buy-now-btn">Buy Now</button>
