@@ -442,7 +442,7 @@
 /* ✅ FIXED: 4 cột 1 dòng cho related products */
 .related-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr); /* 4 cột cố định */
+  grid-template-columns: repeat(4, 1fr); /* 4 cột cố định */
   gap: 20px;
 }
 

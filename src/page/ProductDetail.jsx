@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { CartContext } from "../components/CartContext";
 import { useNotification } from "../components/Notification";
+import QuantitySelector from "../components/QuantitySelector";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -26,6 +27,10 @@ const ProductDetail = () => {
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
+    addNotification(
+      isFavorite ? 'Removed from favorites' : 'Added to favorites', 
+      'success'
+    );
   };
 
   const formatPrice = (price) => {
@@ -35,11 +40,8 @@ const ProductDetail = () => {
     }).format(price);
   };
 
-  const handleQuantityChange = (change) => {
-    const newQuantity = quantity + change;
-    if (newQuantity >= 1 && newQuantity <= 10) {
-      setQuantity(newQuantity);
-    }
+  const handleQuantityChange = (newQuantity) => {
+    setQuantity(newQuantity);
   };
 
   // ✅ Sửa logic lấy related products
@@ -199,23 +201,13 @@ const ProductDetail = () => {
 
             <div className="quantity-selection">
               <h3>Quantity</h3>
-              <div className="quantity-controls">
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity <= 1 || !product.inStock}
-                >
-                  -
-                </button>
-                <span className="quantity-display">{quantity}</span>
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantityChange(1)}
-                  disabled={quantity >= 10 || !product.inStock}
-                >
-                  +
-                </button>
-              </div>
+              <QuantitySelector
+                quantity={quantity}
+                onQuantityChange={handleQuantityChange}
+                min={1}
+                max={10}
+                disabled={!product.inStock}
+              />
             </div>
           </div>
 

@@ -2,57 +2,117 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 40px;
-  padding: 0 20px;
+  margin: 60px 0;
+  padding: 40px 20px;
+  background: #f8f9fa;
 }
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Tự co giãn */
-  gap: 20px;
-  width: 80%; /* Rộng hơn để cân đối */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .grid-item {
-  height: 250px;
-  /* border-radius: 10px; */
+  height: 300px;
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
-  transition: transform 0.4s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .grid-item:hover {
-  transform: scale(1.05); /* Phóng to nhẹ khi hover */
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
 .grid-item::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3); /* Lớp phủ tối giúp chữ nổi bật */
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
   transition: background 0.3s ease;
 }
 
 .grid-item:hover::after {
-  background: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(233, 63, 63, 0.3));
 }
 
 .category-btn {
   position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: 2px solid white;
   background: transparent;
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  /* border-radius: 8px; */
-  border-bottom-right-radius: 8px;
+  border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  backdrop-filter: blur(10px);
 }
 
 .category-btn:hover {
   background: white;
   color: black;
+  transform: translateX(-50%) translateY(-5px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .category-grid {
+    gap: 25px;
+  }
+  
+  .grid-item {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .category {
+    margin: 40px 0;
+    padding: 30px 15px;
+  }
+  
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 400px;
+  }
+  
+  .grid-item {
+    height: 200px;
+  }
+  
+  .category-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category {
+    padding: 20px 10px;
+  }
+  
+  .grid-item {
+    height: 180px;
+  }
+  
+  .category-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
 }

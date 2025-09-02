@@ -9,6 +9,8 @@ const Footer = () => {
           <li>Blog</li>
           <li>FAQs</li>
           <li>Contact</li>
+          <li>About Us</li>
+          <li>Privacy Policy</li>
        </ul>
 
        <ul className="social-icons">
@@ -18,9 +20,10 @@ const Footer = () => {
         <li className="icon"><FaGoogle /></li>
        </ul>
        
-       <h2 className='copyright'>
-         2018 All Right Reserved. This template is made with by <span>Quintus Labs</span>
-       </h2>
+       <div className='copyright'>
+         <p>© 2025 Fashion Cube. All Rights Reserved.</p>
+         <p>This template is made with ❤️ by <span>Quintus Labs</span></p>
+       </div>
     </div>
   )
 }

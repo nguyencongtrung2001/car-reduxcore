@@ -2,10 +2,13 @@ import React, { useContext } from 'react';
 import { CartContext } from '../components/CartContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import QuantitySelector from '../components/QuantitySelector';
+import { useNotification } from '../components/Notification';
 import '../css/cart.css';
 
 const Cart = () => {
-  const { cart, removeFromCart, clearCart } = useContext(CartContext);
+  const { cart, removeFromCart, clearCart, updateQuantity } = useContext(CartContext);
+  const { addNotification, NotificationContainer } = useNotification();
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -18,9 +21,26 @@ const Cart = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
+  const handleQuantityChange = (productId, size, newQuantity) => {
+    updateQuantity(productId, size, newQuantity);
+    addNotification('Quantity updated successfully!', 'success');
+  };
+
+  const handleRemoveItem = (productId, size, productName) => {
+    removeFromCart(productId, size);
+    addNotification(`${productName} removed from cart`, 'success');
+  };
+
+  const handleClearCart = () => {
+    if (window.confirm('Are you sure you want to clear your cart?')) {
+      clearCart();
+      addNotification('Cart cleared successfully!', 'success');
+    }
+  };
   return (
     <div className="cart-page">
       <Header />
+      <NotificationContainer />
       <div className="cart-container">
         <h1 className="cart-title">Your Shopping Cart</h1>
         
@@ -51,7 +71,14 @@ const Cart = () => {
                   </div>
                   
                   <div className="item-quantity">
-                    <span>Quantity: {item.quantity}</span>
+                    <QuantitySelector
+                      quantity={item.quantity}
+                      onQuantityChange={(newQuantity) => 
+                        handleQuantityChange(item.id, item.size, newQuantity)
+                      }
+                      min={1}
+                      max={10}
+                    />
                   </div>
                   
                   <div className="item-total">
@@ -62,7 +89,7 @@ const Cart = () => {
                   
                   <button 
                     className="remove-btn"
-                    onClick={() => removeFromCart(item.id, item.size)}
+                    onClick={() => handleRemoveItem(item.id, item.size, item.name)}
                   >
                     Remove
                   </button>
@@ -74,7 +101,7 @@ const Cart = () => {
               <div className="summary-content">
                 <h3>Order Summary</h3>
                 <div className="summary-row">
-                  <span>Items ({cart.length})</span>
+                  <span>Items ({cart.reduce((total, item) => total + item.quantity, 0)})</span>
                   <span>{formatPrice(getTotalPrice())}</span>
                 </div>
                 <div className="summary-row">
@@ -90,7 +117,7 @@ const Cart = () => {
                   <button className="checkout-btn">
                     Proceed to Checkout
                   </button>
-                  <button className="clear-cart-btn" onClick={clearCart}>
+                  <button className="clear-cart-btn" onClick={handleClearCart}>
                     Clear Cart
                   </button>
                 </div>

@@ -1,4 +1,22 @@
 .home-container {
   width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
 
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add some spacing between sections */
+.home-container > * {
+  margin-bottom: 0;
+}
+
+/* Ensure proper spacing for mobile */
+@media (max-width: 768px) {
+  .home-container {
+    overflow-x: hidden;
+  }
 }

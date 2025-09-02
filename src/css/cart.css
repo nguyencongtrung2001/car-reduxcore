@@ -19,6 +19,7 @@
   text-align: center;
   margin-bottom: 40px;
   position: relative;
+  font-family: 'Roboto', sans-serif;
 }
 
 .cart-title::after {
@@ -64,11 +65,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .continue-shopping-btn:hover {
   background: #d12d2d;
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(233, 63, 63, 0.3);
 }
 
 /* CART CONTENT */
