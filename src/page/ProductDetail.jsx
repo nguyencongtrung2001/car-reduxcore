@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaStar, FaTruck, FaUndo, FaCertificate } from "react-icons/fa";
-import "../css/productDetail.css";
+import "../css/productdetail.css";
 import { clotheall, clothemen, clothewomen } from "../data/clothes";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
