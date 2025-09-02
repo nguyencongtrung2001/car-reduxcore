@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { FaHeart, FaShoppingCart, FaStar, FaTruck, FaUndo, FaCertificate } from "react-icons/fa";
 import "../css/productDetail.css";
@@ -6,10 +6,13 @@ import { clotheall, clothemen, clothewomen } from "../data/clothes";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { CartContext } from "../components/CartContext";
+import { useNotification } from "../components/Notification";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
+  const { addNotification, NotificationContainer } = useNotification();
   const product = clotheall.find((p) => p.id === id);
 
   // ✅ Sửa logic kiểm tra category
@@ -18,6 +21,8 @@ const ProductDetail = () => {
   };
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const [selectSize, setSelectSize] = useState("S");
+  const [quantity, setQuantity] = useState(1);
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -29,9 +34,6 @@ const ProductDetail = () => {
       currency: "VND",
     }).format(price);
   };
-
-  const [selectSize, setSelectSize] = useState("S");
-  const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
@@ -57,13 +59,48 @@ const ProductDetail = () => {
     window.scrollTo(0, 0); // Scroll to top
   };
 
+  // ✅ Fixed Add to Cart function
+  const handleAddToCart = () => {
+    if (!product.inStock) {
+      addNotification("This product is currently out of stock!", "error");
+      return;
+    }
+    
+    try {
+      addToCart(product, selectSize, quantity);
+      addNotification(`Added ${quantity} x ${product.name} (Size: ${selectSize}) to cart!`, "success");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      addNotification("Failed to add to cart. Please try again.", "error");
+    }
+  };
+
+  // ✅ Handle Buy Now
+  const handleBuyNow = () => {
+    if (!product.inStock) {
+      addNotification("This product is currently out of stock!", "error");
+      return;
+    }
+    
+    // Add to cart first, then redirect to cart
+    try {
+      addToCart(product, selectSize, quantity);
+      addNotification("Redirecting to cart...", "success");
+      setTimeout(() => {
+        navigate('/cart');
+      }, 1000);
+    } catch (error) {
+      addNotification("Failed to process. Please try again.", "error");
+    }
+  };
+
   if (!product) {
     return (
       <div className="product-detail-container">
         <Header />
-        <div style={{ textAlign: "center", padding: "50px", color: "white" }}>
+        <div style={{ textAlign: "center", padding: "50px", color: "#333" }}>
           <h2>Product not found</h2>
-          <Link to="/home" style={{ color: "#ff4500" }}>
+          <Link to="/home" style={{ color: "#e93f3f" }}>
             Back to Home
           </Link>
         </div>
@@ -72,14 +109,10 @@ const ProductDetail = () => {
     );
   }
 
-   const { addToCart } = useContext(CartContext);
-  const handleAddToCart = () => {
-    addToCart(product, selectSize, quantity);
-    alert("✅ Added to cart!");
-  };
   return (
     <div className="product-detail-container">
       <Header />
+      <NotificationContainer />
       
       {/* BREADCRUMB */}
       <div className="detail-header">
@@ -140,6 +173,13 @@ const ProductDetail = () => {
             <span className="discount-badge">-17%</span>
           </div>
 
+          {/* STOCK STATUS */}
+          {!product.inStock && (
+            <div className="stock-status out-of-stock">
+              ❌ Out of Stock
+            </div>
+          )}
+
           <div className="product-option">
             <div className="size-selection">
               <h3>Size</h3>
@@ -149,6 +189,7 @@ const ProductDetail = () => {
                     key={size}
                     className={`size-btn ${selectSize === size ? "active" : ""}`}
                     onClick={() => setSelectSize(size)}
+                    disabled={!product.inStock}
                   >
                     {size}
                   </button>
@@ -162,7 +203,7 @@ const ProductDetail = () => {
                 <button
                   className="quantity-btn"
                   onClick={() => handleQuantityChange(-1)}
-                  disabled={quantity <= 1}
+                  disabled={quantity <= 1 || !product.inStock}
                 >
                   -
                 </button>
@@ -170,7 +211,7 @@ const ProductDetail = () => {
                 <button
                   className="quantity-btn"
                   onClick={() => handleQuantityChange(1)}
-                  disabled={quantity >= 10}
+                  disabled={quantity >= 10 || !product.inStock}
                 >
                   +
                 </button>
@@ -179,10 +220,20 @@ const ProductDetail = () => {
           </div>
 
           <div className="action-buttons">
-            <button className="add-to-cart-btn" onClick={handleAddToCart}>
-              <FaShoppingCart /> Add to Cart
+            <button 
+              className={`add-to-cart-btn ${!product.inStock ? 'disabled' : ''}`}
+              onClick={handleAddToCart}
+              disabled={!product.inStock}
+            >
+              <FaShoppingCart /> {product.inStock ? 'Add to Cart' : 'Out of Stock'}
             </button>
-            <button className="buy-now-btn">Buy Now</button>
+            <button 
+              className={`buy-now-btn ${!product.inStock ? 'disabled' : ''}`}
+              onClick={handleBuyNow}
+              disabled={!product.inStock}
+            >
+              {product.inStock ? 'Buy Now' : 'Unavailable'}
+            </button>
           </div>
 
           {/* PRODUCT FEATURES */}

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../css/header.css";
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "./CartContext";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { cart } = useContext(CartContext);
+  
   // ✅ Thêm error handling cho localStorage
   let userEmail = "Guest"; // Default value
   
@@ -16,12 +21,23 @@ const Header = () => {
     console.error("Error parsing user data from localStorage:", error);
   }
 
-  console.log("User email:", userEmail);
+  // Calculate total items in cart
+  const getTotalItems = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const handleCartClick = () => {
+    navigate('/cart');
+  };
+
+  const handleHomeClick = () => {
+    navigate('/home');
+  };
 
   return (
     <header className="header">
       {/* Logo */}
-      <div className="header__title">
+      <div className="header__title" onClick={handleHomeClick} style={{ cursor: 'pointer' }}>
         <h1 className="header__logo">
           <span className="logo-text">FASHION</span>
           <span className="logo-cube">CUBE</span>
@@ -32,7 +48,7 @@ const Header = () => {
       <div className="header__menu">
         <nav className="header__nav">
           <ul className="nav__links">
-            <li className="nav__item">HOME</li>
+            <li className="nav__item" onClick={handleHomeClick}>HOME</li>
             <li className="nav__item">SHOP</li>
             <li className="nav__item">CONTACT</li>
           </ul>
@@ -49,8 +65,11 @@ const Header = () => {
               {/* ✅ Có thể hiển thị user info nếu cần */}
               {/* <span className="user-info">{userEmail}</span> */}
             </li>
-            <li className="header__icon header__icon--cart">
+            <li className="header__icon header__icon--cart" onClick={handleCartClick}>
               <FaShoppingCart />
+              {getTotalItems() > 0 && (
+                <span className="cart-badge">{getTotalItems()}</span>
+              )}
             </li>
           </ul>
         </nav>
